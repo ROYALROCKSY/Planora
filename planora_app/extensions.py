@@ -10,3 +10,5 @@ def get_db():
         _client = MongoClient(MONGO_URI)
         _db = _client[DB_NAME]
     return _db
+
+
