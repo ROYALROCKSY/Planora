@@ -8,4 +8,7 @@ def create_app():
     from planora_app.dashboard.routes import dashboard_bp
     app.register_blueprint(dashboard_bp)
 
+    from planora_app.dashboard.flashcards_routes import flashcards_bp
+    app.register_blueprint(flashcards_bp)
+
     return app

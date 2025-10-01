@@ -363,7 +363,7 @@ body {
 
 /* Content area */
 .content {
-  padding: 10px;
+  padding: -2px;
   max-width: 1200px;
   width: 100%;
 }
