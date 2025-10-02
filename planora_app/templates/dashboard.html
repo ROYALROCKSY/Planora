@@ -1,34 +1,31 @@
-
-
-{% extends "base.html" %}
-
-{% block title %}Dashboard | Planora{% endblock %}
-
-
-{% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% extends "base.html" %} {% block title %}Dashboard | Planora{% endblock %} {%
+block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/dashboard.css') }}"
+/>
 
 <main class="dashboard-page">
-  <!-- Shell fills available height from base.html -->
   <div class="dashboard-shell" role="region" aria-label="Dashboard">
-    <!-- Main content + Chat sidebar -->
     <div class="dashboard-grid">
       <!-- Main area -->
       <section class="main-area" aria-label="Main dashboard">
         <!-- Welcome -->
         <header class="welcome-block" aria-label="Welcome">
           <h2 class="welcome-title">Welcome back, Samarpita!</h2>
-          <p class="welcome-subtitle">“Every day is a new opportunity to learn something amazing!”</p>
+          <p class="welcome-subtitle">
+            “Every day is a new opportunity to learn something amazing!”
+          </p>
         </header>
 
-        <!-- Quick alerts -->
+        <!-- Quick alerts / cards -->
         <section class="quick-cards" aria-label="Quick alerts">
           <article class="card card--lavender">
             <h3 class="card-title">
               <span class="card-title__icon" aria-hidden="true"></span>
               Peak Focus Time
             </h3>
-            <div class="card-main">2:00 PM – 4:00 PM</div>
+            <div class="card-main" id="peak-focus-time">Loading...</div>
             <p class="card-sub">Based on your highest productivity scores.</p>
           </article>
 
@@ -37,17 +34,27 @@
               <span class="card-title__icon" aria-hidden="true"></span>
               Priority Focus
             </h3>
-            <div class="card-main card-main--accent">Chemistry</div>
-            <p class="card-sub">Last Studied: 18 Days Ago</p>
+            <div class="card-main card-main--accent" id="priority-subject">
+              Loading...
+            </div>
+            <p class="card-sub" id="priority-reason">
+              Fetching recommendation...
+            </p>
           </article>
 
           <article class="card card--mint">
             <h3 class="card-title">
               <span class="card-title__icon" aria-hidden="true"></span>
-              Pace Yourself
+              Daily Streak
             </h3>
-            <div class="card-main">Physics</div>
-            <p class="card-sub">18 hours logged this week (↑60%)</p>
+            <div class="card-main">
+              <span id="daily-streak-count">0 days</span> 
+            </div>
+            <p class="card-sub">
+              Missed: <span id="daily-streak-missed">0</span> day(s) this month
+              <br />
+              <span id="daily-streak-msg">Loading...</span>
+            </p>
           </article>
         </section>
 
@@ -59,29 +66,39 @@
               <h2 class="panel-title">Flashcards</h2>
             </div>
 
-              
-
             <div class="doc-upload">
-  <label for="doc-upload" class="upload-label">Upload:</label>
-  <input id="doc-upload" class="upload-input" type="file" />
-  <button class="upload-btn" type="button" aria-label="Upload">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M5 20h14v-2H5v2zm7-16l-6 6h4v6h4v-6h4l-6-6z"/>
-    </svg>
-  </button>
-</div>
+              <label for="doc-upload" class="upload-label">Upload:</label>
+              <input id="doc-upload" class="upload-input" type="file" />
+              <button class="upload-btn" type="button" aria-label="Upload">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 20h14v-2H5v2zm7-16l-6 6h4v6h4v-6h4l-6-6z" />
+                </svg>
+              </button>
+            </div>
 
-
-              <!-- Flashcard Stage -->
-              <div class="flashcard-stage">
-                <div class="flashcard-card" id="flashcard-card">
-                  <p id="flashcard-content">Flashcard 1: Example content...</p>
-                  <!-- Invisible click zones -->
-                  <div id="flash-left" class="flash-nav flash-left" aria-label="Previous card"></div>
-                  <div id="flash-right" class="flash-nav flash-right" aria-label="Next card"></div>
-                </div>
+            <!-- Flashcard Stage -->
+            <div class="flashcard-stage">
+              <div class="flashcard-card" id="flashcard-card">
+                <p id="flashcard-content"></p>
+                <div
+                  id="flash-left"
+                  class="flash-nav flash-left"
+                  aria-label="Previous card"
+                ></div>
+                <div
+                  id="flash-right"
+                  class="flash-nav flash-right"
+                  aria-label="Next card"
+                ></div>
               </div>
             </div>
+          </div>
 
           <!-- Task plan panel -->
           <div class="task-plan-panel">
@@ -111,40 +128,38 @@
                   <span class="task-deadline">Due: Oct 9, 2025</span>
                 </div>
               </div>
-              <!-- More tasks… -->
             </div>
-
           </div>
         </section>
       </section>
 
-<!-- Chatbot sidebar -->
-<aside class="chatbot-sidebar" aria-label="Study Assistant">
-  <header class="chatbot-header">
-    <h2 class="chatbot-title">Study Assistant</h2>
-  </header>
-
-  <!-- Chat body -->
-  <div class="chatbot-body" id="chatbot-body">
-    <div id="chat-messages"></div>
+      <!-- Chatbot sidebar -->
+      <aside class="chatbot-sidebar" aria-label="Study Assistant">
+        <header class="chatbot-header">
+          <h2 class="chatbot-title">Study Assistant</h2>
+        </header>
+        <div class="chatbot-body" id="chatbot-body">
+          <div id="chat-messages"></div>
+        </div>
+        <footer class="chatbot-inputbar" aria-label="Chat input">
+          <input
+            class="chat-input"
+            type="text"
+            placeholder="Ask me something…"
+            aria-label="Ask me something"
+          />
+          <button class="chat-send" type="button">Send</button>
+        </footer>
+      </aside>
+    </div>
   </div>
+</main>
 
-  <!-- Input bar -->
-  <footer class="chatbot-inputbar" aria-label="Chat input">
-    <input class="chat-input" type="text" placeholder="Ask me something…" aria-label="Ask me something" />
-    <button class="chat-send" type="button">Send</button>
-  </footer>
-</aside>
-
-
-
-
-
-
-<!-- Include chat JS at the end of body -->
+<!-- Scripts at end -->
 <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
-
 <script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/best_time.js') }}"></script>
+<script src="{{ url_for('static', filename='js/priority_focus.js') }}"></script>
+<script src="{{ url_for('static', filename='js/daily_streak.js') }}"></script>
 
 {% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Pomodoro Timer{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timer.css') }}">
+
+<div class="pomodoro-container">
+
+  <h2>Pomodoro Timer</h2>
+
+  <!-- Timer Display -->
+  <div class="timer-display">
+    <span id="countdown">20:00</span>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="endBtn">End</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <!-- Settings -->
+  <div class="settings">
+    <label for="subject">Subject:</label>
+    <select id="subject">
+      <option value="">--Select Subject--</option>
+    </select>
+
+    <label for="totalCycles">No of Cycles:</label>
+    <select id="totalCycles">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected>4</option>
+    </select>
+
+    <label for="timerPerCycle">Time per Cycle (mins):</label>
+    <select id="timerPerCycle">
+      <option value="15">15</option>
+      <option value="20" selected>20</option>
+      <option value="25">25</option>
+    </select>
+
+    <label for="breakTime">Break Time (mins):</label>
+    <select id="breakTime">
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+    </select>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <p>Cycles Completed: <span id="cyclesCompleted">0</span>/<span id="totalCyclesDisplay">4</span></p>
+    <p>Pause Count: <span id="pauseCount">0</span></p>
+    <p>Status: <span id="sessionStatus">Not Started</span></p>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="notes-section">
+    <h3>Session Notes</h3>
+    <textarea id="noteText" rows="4" placeholder="Write your notes here..."></textarea>
+    <button id="saveNoteBtn">Save Note</button>
+    
+    {% if latest_note %}
+    <div class="recent-note">
+      <p><strong>Recent Note:</strong> {{ latest_note.text }}</p>
+      <small>{{ latest_note.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+
+{% endblock %}

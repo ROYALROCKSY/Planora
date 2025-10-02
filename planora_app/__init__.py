@@ -11,4 +11,10 @@ def create_app():
     from planora_app.dashboard.flashcards_routes import flashcards_bp
     app.register_blueprint(flashcards_bp)
 
+    from planora_app.dashboard.cards_routes import cards_bp   # ✅ new
+    app.register_blueprint(cards_bp)
+    
+    from planora_app.pomodoro.timer_routes import timer_bp   # ✅ pomodoro
+    app.register_blueprint(timer_bp)
+    
     return app
