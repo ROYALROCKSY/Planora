@@ -193,10 +193,10 @@ body {
 }
 
 /* Icon: Pomodoro (clock) */
-.sidebar a[href*="/pomodoro"]::before {
+/* .sidebar a[href*="/pomodoro"]::before {
   -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm1 5h-2v6l4 2"/></svg>');
           mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm1 5h-2v6l4 2"/></svg>');
-}
+} */
 
 /* Icon: Sessions (history) */
 .sidebar a[href*="/sessions"]::before {
@@ -241,6 +241,18 @@ body {
   -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>');
   mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>');
 }
+
+.sidebar-bottom a[href*="/preferences"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M487.4 315.7l-42.6-24.6c2.7-14.5 2.7-29.5 0-44l42.6-24.6c6.7-3.9 9.5-12.1 6-19.3l-45.7-79c-3.6-6.2-11-9.1-18.1-7l-50.1 16.8c-11.9-9.3-25-16.7-39-21.9V24c0-7.2-5.8-13-13-13h-90c-7.2 0-13 5.8-13 13v48.1c-14 5.2-27.1 12.6-39 21.9l-50.1-16.8c-7.1-2.4-14.5.8-18.1 7l-45.7 79c-3.5 6.2-1 15.4 6 19.3l42.6 24.6c-2.7 14.5-2.7 29.5 0 44l-42.6 24.6c-6.7 3.9-9.5 12.1-6 19.3l45.7 79c3.6 6.2 11 9.1 18.1 7l50.1-16.8c11.9 9.3 25 16.7 39 21.9V488c0 7.2 5.8 13 13 13h90c7.2 0 13-5.8 13-13v-48.1c14-5.2 27.1-12.6 39-21.9l50.1 16.8c7.1 2.4 14.5-.8 18.1-7l45.7-79c3.5-6.2 1-15.4-6-19.3zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"/></svg>');
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M487.4 315.7l-42.6-24.6c2.7-14.5 2.7-29.5 0-44l42.6-24.6c6.7-3.9 9.5-12.1 6-19.3l-45.7-79c-3.6-6.2-11-9.1-18.1-7l-50.1 16.8c-11.9-9.3-25-16.7-39-21.9V24c0-7.2-5.8-13-13-13h-90c-7.2 0-13 5.8-13 13v48.1c-14 5.2-27.1 12.6-39 21.9l-50.1-16.8c-7.1-2.4-14.5.8-18.1 7l-45.7 79c-3.5 6.2-1 15.4 6 19.3l42.6 24.6c-2.7 14.5-2.7 29.5 0 44l-42.6 24.6c-6.7 3.9-9.5 12.1-6 19.3l45.7 79c3.6 6.2 11 9.1 18.1 7l50.1-16.8c11.9 9.3 25 16.7 39 21.9V488c0 7.2 5.8 13 13 13h90c7.2 0 13-5.8 13-13v-48.1c14-5.2 27.1-12.6 39-21.9l50.1 16.8c7.1 2.4 14.5-.8 18.1-7l45.7-79c3.5-6.2 1-15.4-6-19.3zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"/></svg>');
+}
+
+
+.sidebar-bottom a[href*="/timer"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm16 112h-32v112l96 57.6 16-26.4-80-48V160z"/></svg>');
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm16 112h-32v112l96 57.6 16-26.4-80-48V160z"/></svg>');
+}
+
 
 
 /* ---------- Bottom-pinned actions ---------- */

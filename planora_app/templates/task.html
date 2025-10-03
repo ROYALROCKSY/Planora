@@ -1,0 +1,56 @@
+{# planora_app/templates/task.html #}
+{% extends "base.html" %}
+
+{% block title %}Tasks - Planora{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+
+<div class="task-page">
+  <h2>Tasks</h2>
+
+  <!-- Add / Edit form -->
+  <section class="task-form-section">
+    <form id="task-form" autocomplete="off">
+      <input type="hidden" id="task-id" value="">
+      <div class="form-row">
+        <label for="task-name">Task name</label>
+        <input id="task-name" name="name" type="text" required placeholder="e.g. Finish ML assignment">
+      </div>
+
+      <div class="form-row">
+        <label for="task-deadline">Deadline</label>
+        <input id="task-deadline" name="deadline" type="datetime-local">
+      </div>
+
+      <div class="form-row">
+        <label for="task-priority">Priority</label>
+        <select id="task-priority" name="priority">
+          <option value="High">High</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="task-duration">Duration (hours)</label>
+        <input id="task-duration" name="duration" type="number" step="0.25" min="0" placeholder="optional">
+      </div>
+
+      <div class="form-actions">
+        <button id="create-btn" type="submit">Create task</button>
+        <button id="cancel-edit-btn" type="button" style="display:none">Cancel</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Tasks list -->
+  <section class="task-list-section">
+    <h3>Your tasks</h3>
+    <ul id="tasks-list" class="tasks-list"></ul>
+  </section>
+</div>
+
+<!-- load the page JS -->
+<script src="{{ url_for('static', filename='js/task.js') }}"></script>
+{% endblock %}

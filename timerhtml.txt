@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Pomodoro Timer{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timer.css') }}">
+
+<div class="pomodoro-container">
+
+  <h2>Pomodoro Timer</h2>
+
+  <!-- Timer Display -->
+  <div class="timer-display">
+    <span id="countdown">20:00</span>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="endBtn">End</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <!-- Settings -->
+  <div class="settings">
+    <label for="subject">Subject:</label>
+    <select id="subject">
+      <option value="">--Select Subject--</option>
+    </select>
+
+    <label for="totalCycles">No of Cycles:</label>
+    <select id="totalCycles">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected>4</option>
+    </select>
+
+    <label for="timerPerCycle">Time per Cycle (mins):</label>
+    <select id="timerPerCycle">
+      <option value="15">15</option>
+      <option value="20" selected>20</option>
+      <option value="25">25</option>
+    </select>
+
+    <label for="breakTime">Break Time (mins):</label>
+    <select id="breakTime">
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+    </select>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <p>Cycles Completed: <span id="cyclesCompleted">0</span>/<span id="totalCyclesDisplay">4</span></p>
+    <p>Pause Count: <span id="pauseCount">0</span></p>
+    <p>Status: <span id="sessionStatus">Not Started</span></p>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="notes-section">
+    <h3>Session Notes</h3>
+    <textarea id="noteText" rows="4" placeholder="Write your notes here..."></textarea>
+    <button id="saveNoteBtn">Save Note</button>
+    
+    {% if latest_note %}
+    <div class="recent-note">
+      <p><strong>Recent Note:</strong> {{ latest_note.text }}</p>
+      <small>{{ latest_note.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+
+{% endblock %}
+
+
+
+
+
+----------------------------------------
+timer_routes.py 
+
+
+from flask import Blueprint, request, jsonify, render_template
+from .timer_services import get_subjects, save_pomodoro_session
+
+timer_bp = Blueprint("timer", __name__, template_folder="templates", url_prefix="/timer")
+
+@timer_bp.route("/")
+def timer_home():
+    return render_template("timer.html")
+
+@timer_bp.route("/subjects")
+def fetch_subjects():
+    user_id = request.args.get("user_id")
+    subjects = get_subjects(user_id)
+    return jsonify({"subjects": subjects})
+
+@timer_bp.route("/save_session", methods=["POST"])
+def save_session():
+    data = request.get_json()
+    session_id = save_pomodoro_session(data)
+    return jsonify({"status": "success", "session_id": str(session_id)})
+
+
+----------------------------------
+timer_services 
+
+from planora_app.extensions import get_db
+from bson.objectid import ObjectId
+from datetime import datetime
+
+db = get_db()
+
+def get_subjects(user_id):
+    """Fetch subjects from user's qna."""
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    if not user:
+        return []
+    return user.get("qna", {}).get("subjects", [])
+
+# def save_pomodoro_session(data):
+#     """Save Pomodoro session in DB."""
+#     start_time_dt = datetime.fromisoformat(data["start_time"])
+#     end_time_dt = datetime.fromisoformat(data["end_time"])
+#     session_doc = {
+#         "user_id": ObjectId(data["user_id"]),
+#         "subject": data["subject"],
+#         "start_time": start_time_dt,
+#         "end_time": end_time_dt,
+#         "no_of_cycles_decided": data["no_of_cycles_decided"],
+#         "no_of_cycles_completed": data["no_of_cycles_completed"],
+#         "break_time": data["break_time"],
+#         "pause_count": data["pause_count"],
+#         "timer_per_cycle": data["timer_per_cycle"],
+#         "completion_status": data["completion_status"],
+#         "date": start_time_dt.strftime("%Y-%m-%d"),
+#     }
+#     result = db.sessions.insert_one(session_doc)
+#     return result.inserted_id
+
+def save_pomodoro_session(data):
+    """Save Pomodoro session in DB."""
+    start_time_dt = datetime.fromisoformat(data["start_time"])
+    end_time_dt = datetime.fromisoformat(data["end_time"])
+    session_doc = {
+        "user_id": ObjectId(data["user_id"]),
+        "subject": data["subject"],
+        "start_time": start_time_dt,
+        "end_time": end_time_dt,
+        "no_of_cycles_decided": data["no_of_cycles_decided"],
+        "no_of_cycles_completed": data["no_of_cycles_completed"],
+        "break_time": data["break_time"],
+        "pause_count": data["pause_count"],
+        "timer_per_cycle": data["timer_per_cycle"],
+        "completion_status": data["completion_status"],
+        "date": start_time_dt.strftime("%Y-%m-%d"),
+    }
+    result = db.sessions.insert_one(session_doc)
+    return result.inserted_id

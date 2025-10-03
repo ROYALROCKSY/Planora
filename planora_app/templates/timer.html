@@ -59,23 +59,33 @@
     <p>Status: <span id="sessionStatus">Not Started</span></p>
   </div>
 
-  <!-- Notes Section -->
-  <div class="notes-section">
-    <h3>Session Notes</h3>
-    <textarea id="noteText" rows="4" placeholder="Write your notes here..."></textarea>
-    <button id="saveNoteBtn">Save Note</button>
-    
+ <!-- Notes Section -->
+<div class="notes-section">
+  <h3>Session Notes</h3>
+
+  <textarea id="noteText" rows="4" placeholder="Write your notes here..."></textarea>
+  <button id="saveNoteBtn">Save Note</button>
+
+  <div id="noteStatus" style="display:none; margin-top:8px;"></div>
+
+  <div id="recentNoteWrapper" style="margin-top:12px;">
     {% if latest_note %}
-    <div class="recent-note">
-      <p><strong>Recent Note:</strong> {{ latest_note.text }}</p>
-      <small>{{ latest_note.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+    <div class="recent-note" id="recentNote">
+      <p><strong>Recent Note:</strong> <span id="recentNoteText">{{ latest_note.text }}</span></p>
+      <small id="recentNoteTime">{{ latest_note.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+    </div>
+    {% else %}
+    <!-- placeholder that the JS will populate -->
+    <div class="recent-note" id="recentNote" style="display:none;">
+      <p><strong>Recent Note:</strong> <span id="recentNoteText"></span></p>
+      <small id="recentNoteTime"></small>
     </div>
     {% endif %}
   </div>
-
 </div>
 
 <!-- JS -->
 <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/notes.js') }}"></script>
 
 {% endblock %}

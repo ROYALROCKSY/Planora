@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Preferences - Planora{% endblock %}
+
+{% block content %}
+
+link rel="stylesheet" href="{{ url_for('static', filename='css/preferences.css') }}">
+
+<div class="preferences-page">
+    <div class="page-header">
+        <h1>Your Preferences</h1>
+        <p class="page-subtitle">Manage your study preferences and profile settings</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <span class="alert-icon">
+                        {% if category == 'success' %}✓{% elif category == 'danger' %}✗{% else %}ℹ{% endif %}
+                    </span>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('preferences') }}" id="preferencesForm">
+        
+        <!-- Basic Information -->
+        <div class="pref-card">
+            <div class="pref-card-header">
+                <h2>Basic Information</h2>
+            </div>
+            <div class="pref-card-body">
+                <div class="pref-form-row">
+                    <div class="pref-form-group">
+                        <label for="age">Age</label>
+                        {% if edit_mode %}
+                            <input type="number" id="age" name="age" min="18" max="30" 
+                                   value="{{ preferences.age }}" required>
+                        {% else %}
+                            <div class="pref-display-value">{{ preferences.age }} years</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Subjects -->
+        <div class="pref-card">
+            <div class="pref-card-header">
+                <h2>Study Subjects</h2>
+            </div>
+            <div class="pref-card-body">
+                {% if edit_mode %}
+                    <div class="pref-checkbox-grid">
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="Math" 
+                                   {% if 'Math' in preferences.subjects %}checked{% endif %}>
+                            <span>Math</span>
+                        </label>
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="Physics" 
+                                   {% if 'Physics' in preferences.subjects %}checked{% endif %}>
+                            <span>Physics</span>
+                        </label>
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="Chemistry" 
+                                   {% if 'Chemistry' in preferences.subjects %}checked{% endif %}>
+                            <span>Chemistry</span>
+                        </label>
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="Biology" 
+                                   {% if 'Biology' in preferences.subjects %}checked{% endif %}>
+                            <span>Biology</span>
+                        </label>
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="English" 
+                                   {% if 'English' in preferences.subjects %}checked{% endif %}>
+                            <span>English</span>
+                        </label>
+                        <label class="pref-checkbox-item">
+                            <input type="checkbox" name="subjects" value="History" 
+                                   {% if 'History' in preferences.subjects %}checked{% endif %}>
+                            <span>History</span>
+                        </label>
+                    </div>
+                {% else %}
+                    <div class="pref-tags-container">
+                        {% for subject in preferences.subjects %}
+                            <span class="pref-tag">{{ subject }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Study Patterns -->
+        <div class="pref-card">
+            <div class="pref-card-header">
+                <h2>Study Patterns</h2>
+            </div>
+            <div class="pref-card-body">
+                <div class="pref-form-row">
+                    <div class="pref-form-group">
+                        <label for="sleep_schedule">Sleep Schedule</label>
+                        {% if edit_mode %}
+                            <select id="sleep_schedule" name="sleep_schedule" required>
+                                <option value="Early bird" {% if preferences.sleep_schedule == 'Early bird' %}selected{% endif %}>Early bird</option>
+                                <option value="Night owl" {% if preferences.sleep_schedule == 'Night owl' %}selected{% endif %}>Night owl</option>
+                                <option value="Flexible" {% if preferences.sleep_schedule == 'Flexible' %}selected{% endif %}>Flexible</option>
+                            </select>
+                        {% else %}
+                            <div class="pref-display-value">{{ preferences.sleep_schedule }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="pref-form-group">
+                        <label for="morning_evening_person">Best Study Time</label>
+                        {% if edit_mode %}
+                            <select id="morning_evening_person" name="morning_evening_person" required>
+                                <option value="Morning" {% if preferences.morning_evening_person == 'Morning' %}selected{% endif %}>Morning</option>
+                                <option value="Evening" {% if preferences.morning_evening_person == 'Evening' %}selected{% endif %}>Evening</option>
+                                <option value="Both" {% if preferences.morning_evening_person == 'Both' %}selected{% endif %}>Both</option>
+                            </select>
+                        {% else %}
+                            <div class="pref-display-value">{{ preferences.morning_evening_person }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivation & Challenges -->
+        <div class="pref-card">
+            <div class="pref-card-header">
+                <h2>Motivation & Challenges</h2>
+            </div>
+            <div class="pref-card-body">
+                <div class="pref-form-group">
+                    <label for="motivation">What Motivates You?</label>
+                    {% if edit_mode %}
+                        <select id="motivation" name="motivation" required>
+                            <option value="Grades" {% if preferences.motivation == 'Grades' %}selected{% endif %}>Grades</option>
+                            <option value="Knowledge" {% if preferences.motivation == 'Knowledge' %}selected{% endif %}>Knowledge</option>
+                            <option value="Competition" {% if preferences.motivation == 'Competition' %}selected{% endif %}>Competition</option>
+                            <option value="Routine" {% if preferences.motivation == 'Routine' %}selected{% endif %}>Routine</option>
+                        </select>
+                    {% else %}
+                        <div class="pref-display-value">{{ preferences.motivation }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="pref-form-group">
+                    <label>Study Difficulties</label>
+                    {% if edit_mode %}
+                        <div class="pref-checkbox-grid">
+                            <label class="pref-checkbox-item">
+                                <input type="checkbox" name="difficulties" value="Procrastination" 
+                                       {% if 'Procrastination' in preferences.difficulties %}checked{% endif %}>
+                                <span>Procrastination</span>
+                            </label>
+                            <label class="pref-checkbox-item">
+                                <input type="checkbox" name="difficulties" value="Distractions" 
+                                       {% if 'Distractions' in preferences.difficulties %}checked{% endif %}>
+                                <span>Distractions</span>
+                            </label>
+                            <label class="pref-checkbox-item">
+                                <input type="checkbox" name="difficulties" value="Lack of interest" 
+                                       {% if 'Lack of interest' in preferences.difficulties %}checked{% endif %}>
+                                <span>Lack of interest</span>
+                            </label>
+                            <label class="pref-checkbox-item">
+                                <input type="checkbox" name="difficulties" value="Fatigue" 
+                                       {% if 'Fatigue' in preferences.difficulties %}checked{% endif %}>
+                                <span>Fatigue</span>
+                            </label>
+                        </div>
+                    {% else %}
+                        <div class="pref-tags-container">
+                            {% for difficulty in preferences.difficulties %}
+                                <span class="pref-tag">{{ difficulty }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pref-actions">
+            {% if edit_mode %}
+                <button type="submit" class="pref-btn pref-btn-primary">Save Changes</button>
+                <a href="{{ url_for('preferences') }}" class="pref-btn pref-btn-secondary">Cancel</a>
+            {% else %}
+                <a href="{{ url_for('preferences', edit=1) }}" class="pref-btn pref-btn-primary">Edit Preferences</a>
+            {% endif %}
+        </div>
+
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/preferences.js') }}"></script>
+{% endblock %}

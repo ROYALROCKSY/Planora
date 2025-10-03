@@ -1,0 +1,314 @@
+/* Notes List Page — /static/css/notes_list.css */
+/* Pastel pink→purple theme, responsive layout, professional UI */
+
+/* 1) Theme tokens (limit to five colors) */
+:root {
+  --brand-pink: #f472b6; /* pastel pink */
+  --brand-purple: #a78bfa; /* pastel purple */
+  --surface: #ffffff; /* card/background surface */
+  --text-strong: #111827; /* gray-900 */
+  --text-muted: #6b7280; /* gray-500 */
+}
+
+/* 2) Base reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-strong);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji",
+    "Segoe UI Emoji";
+  background: radial-gradient(120% 120% at 0% 0%, rgba(167, 139, 250, 0.1) 0%, transparent 60%),
+    radial-gradient(120% 120% at 100% 0%, rgba(244, 114, 182, 0.1) 0%, transparent 60%), #faf7ff;
+}
+
+/* 3) Utilities */
+:root {
+  --radius-2xl: 16px;
+  --shadow-soft: 0 10px 25px rgba(31, 41, 55, 0.08);
+  --shadow-hover: 0 14px 30px rgba(31, 41, 55, 0.12);
+  --ring: 0 0 0 4px rgba(167, 139, 250, 0.25);
+  --gradient: linear-gradient(135deg, var(--brand-pink), var(--brand-purple));
+}
+
+/* 4) Container */
+.notes-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 4vw, 32px);
+  display: grid;
+  gap: 16px;
+}
+
+/* 5) Header */
+.notes-container h2 {
+  margin: 0;
+  padding: 14px 18px;
+  font-size: clamp(20px, 3.4vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  border-radius: var(--radius-2xl);
+  background-image: var(--gradient);
+  box-shadow: var(--shadow-soft);
+}
+
+/* 6) Search bar (prominent, rounded) */
+#noteSearch {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 9999px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  background: var(--surface);
+  color: var(--text-strong);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), var(--shadow-soft);
+  outline: none;
+  transition: box-shadow 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+#noteSearch::placeholder {
+  color: var(--text-muted);
+}
+
+#noteSearch:focus-visible {
+  border-color: transparent;
+  box-shadow: var(--ring), 0 1px 0 rgba(255, 255, 255, 0.6), var(--shadow-soft);
+}
+
+/* 7) Filters: layout and controls */
+.filters {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .filters {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+  }
+}
+
+.filters select,
+.filters input[type="date"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  background: linear-gradient(0deg, var(--surface), var(--surface)),
+    linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(244, 114, 182, 0.15));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: var(--text-strong);
+  outline: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), var(--shadow-soft);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.filters select:hover,
+.filters input[type="date"]:hover {
+  border-color: rgba(167, 139, 250, 0.45);
+}
+
+.filters select:focus-visible,
+.filters input[type="date"]:focus-visible {
+  border-color: transparent;
+  box-shadow: var(--ring), 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Filter apply button */
+#applyFilter {
+  appearance: none;
+  border: 0;
+  border-radius: 9999px;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-image: var(--gradient);
+  box-shadow: 0 6px 16px rgba(167, 139, 250, 0.25), 0 2px 6px rgba(244, 114, 182, 0.15);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, opacity 160ms ease;
+}
+
+#applyFilter:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+  filter: saturate(1.05);
+}
+
+#applyFilter:active {
+  transform: translateY(0);
+  filter: saturate(0.98);
+}
+
+#applyFilter:focus-visible {
+  outline: none;
+  box-shadow: var(--ring), 0 6px 16px rgba(167, 139, 250, 0.25);
+}
+
+/* 8) Notes list */
+#notesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+/* Note card */
+#notesList > li {
+  background: var(--surface);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: var(--radius-2xl);
+  padding: 14px 14px 14px 16px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  display: grid;
+  grid-template-columns: 1fr auto; /* content | star */
+  align-items: start; /* allow rows to grow with tall content */
+  gap: 12px;
+}
+
+#notesList > li:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+/* Card inner content */
+.note-main {
+  display: grid;
+  gap: 8px;
+}
+
+/* Note text snippet (clamp to show snippet + ellipsis) */
+.note-text {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 15px;
+  line-height: 1.6;
+  display: block; /* let content define height */
+  overflow: visible; /* no clipping */
+  text-overflow: clip; /* no ellipsis */
+  white-space: normal; /* wrap lines normally */
+  overflow-wrap: anywhere; /* break very long words/URLs if needed */
+}
+
+/* Optional utility to restore the previous 3-line clamp if desired */
+.note-text--clamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Metadata (date/time, etc.) */
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Star button (right-aligned) */
+.note-star,
+.star-btn,
+.star {
+  justify-self: end;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background-image: var(--gradient);
+  color: #fff;
+  font-size: 18px;
+  line-height: 36px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(167, 139, 250, 0.25), 0 2px 6px rgba(244, 114, 182, 0.15);
+  transition: transform 120ms ease, box-shadow 160ms ease, filter 160ms ease;
+  align-self: center; /* keep star vertically centered even when content grows */
+}
+
+.note-star:hover,
+.star-btn:hover,
+.star:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+  filter: saturate(1.05);
+}
+
+.note-star:active,
+.star-btn:active,
+.star:active {
+  transform: translateY(0);
+  filter: saturate(0.98);
+}
+
+.note-star:focus-visible,
+.star-btn:focus-visible,
+.star:focus-visible {
+  outline: none;
+  box-shadow: var(--ring), 0 6px 16px rgba(167, 139, 250, 0.25);
+}
+
+/* Provide a fallback alignment if the star is placed inside the content */
+.note-main .note-star,
+.note-main .star-btn,
+.note-main .star {
+  margin-left: auto;
+}
+
+/* 9) Responsive adjustments */
+@media (min-width: 640px) {
+  #notesList > li {
+    grid-template-columns: 1fr auto; /* keep star at right on larger screens */
+    padding: 16px 18px;
+  }
+}
+
+@media (max-width: 639.98px) {
+  #notesList > li {
+    grid-template-columns: 1fr; /* stack star below on small screens if needed */
+  }
+  .note-star,
+  .star-btn,
+  .star {
+    justify-self: start;
+    margin-top: 6px;
+  }
+}
+
+/* 10) Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #applyFilter,
+  #noteSearch,
+  .filters select,
+  .filters input[type="date"],
+  #notesList > li,
+  .note-star,
+  .star-btn,
+  .star {
+    transition: none;
+  }
+}

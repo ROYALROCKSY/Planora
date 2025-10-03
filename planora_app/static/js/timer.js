@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let startTime = null;
 
   // Fetch subjects from backend
-  fetch(`/timer/subjects?user_id=68dc37187ffd67372e424594`)
+  fetch(`/timer/subjects?user_id=68dc37187ffd67372e424594`) //update w the session id fetched from current session
     .then(res => res.json())
     .then(data => {
       data.subjects.forEach(s => {
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const endTime = new Date();
 
     const sessionData = {
-      user_id: "68dc37187ffd67372e424594",
+      user_id: "68dc37187ffd67372e424594", //get session id from the current session
       subject: subjectSelect.value,
       start_time: startTime.toISOString(),
       end_time: endTime.toISOString(),
