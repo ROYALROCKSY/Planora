@@ -27,4 +27,10 @@ def create_app():
     from planora_app.notes_list.notes_list_routes import notes_bp
     app.register_blueprint(notes_bp)
     
+    from planora_app.sessions.sessions_routes import sessions_bp
+    app.register_blueprint(sessions_bp)
+    
+    from planora_app.preferences.preferences_routes import preferences_bp
+    app.register_blueprint(preferences_bp)
+    
     return app

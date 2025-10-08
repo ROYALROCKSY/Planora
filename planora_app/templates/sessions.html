@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Sessions - Planora{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sessions.css') }}">
+
+<div class="sessions-container">
+  <h2>My Study Sessions</h2>
+
+  <!-- Filters -->
+  <div class="filters">
+    <select id="filterType">
+      <option value="">Filter By</option>
+      <option value="date">Date</option>
+      <option value="month">Month</option>
+      <option value="year">Year</option>
+      <option value="subject">Subject</option>
+    </select>
+
+    <input type="date" id="filterDate" style="display:none" />
+    <select id="filterMonth" style="display:none">
+      {% for m in range(1,13) %}
+      <option value="{{m}}">{{m}}</option>
+      {% endfor %}
+    </select>
+    <select id="filterYear" style="display:none">
+      {% for y in range(2023, 2031) %}
+      <option value="{{y}}">{{y}}</option>
+      {% endfor %}
+    </select>
+    <input type="text" id="filterSubject" placeholder="Enter subject" style="display:none" />
+
+    <button id="applyFilter">Apply</button>
+  </div>
+
+  <!-- Sessions list -->
+  <ul id="sessionsList"></ul>
+</div>
+
+<!-- Inject USER_ID -->
+<script>
+  const USER_ID = "{{ user_id }}";
+</script>
+<script src="/static/js/sessions.js"></script>
+{% endblock %}
